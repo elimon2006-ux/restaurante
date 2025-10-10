@@ -4,53 +4,49 @@ import psycopg2
 
 app = Flask(__name__)
 
-# La URL completa de Supabase se lee desde la Variable de Entorno
-DATABASE_URL = os.environ.get('DATABASE_URL')
-
 @app.route('/')
 def index():
+    # Leer la URL de la base de datos desde la variable de entorno de Render
+    DATABASE_URL = os.environ.get('DATABASE_URL')
+    
     if not DATABASE_URL:
         return "ERROR: La variable DATABASE_URL no está configurada.", 500
     
     conn = None
-    resultado = "Conexión a Base de Datos Exitosa!"
+    resultado = "ERROR: No se pudo establecer la conexión." # Valor por defecto en caso de fallo
     
     try:
         # Intenta conectar a Supabase usando la URL
         conn = psycopg2.connect(DATABASE_URL)
-        cursor = conn.cursor()
         
-        # Ejemplo: Consulta el nombre del trabajador con id=1 (debe existir)
-        cursor.execute("SELECT nombre FROM Trabajador WHERE id_trabajador = 1")
-        trabajador = cursor.fetchone()
+        # SI LA CONEXIÓN ES EXITOSA, CAMBIA EL MENSAJE
+        resultado = "¡CONEXIÓN A SUPABASE EXITOSA! 🎉 (El servidor está vivo)."
         
-        if trabajador:
-            resultado = f"¡Bienvenido! Trabajador de prueba: {trabajador[0]}."
-        else:
-            resultado = "Conexión Exitosa. No se encontraron trabajadores (id=1) en la base de datos."
+        # --- CONSULTAS ELIMINADAS ---
+        # cursor = conn.cursor()
+        # cursor.execute("SELECT 1") 
+        # cursor.fetchone() 
+        # --- FIN DE CONSULTAS ---
 
     except Exception as e:
-        resultado = f"Error al conectar o consultar la BD: {e}"
+        # Esto capturará cualquier error de credenciales o de red
+        resultado = f"ERROR DE CONEXIÓN CRÍTICO: Revisa tu DATABASE_URL. Detalle: {e}"
         
     finally:
         if conn:
-            conn.close()
+            conn.close() # Cierra la conexión de forma segura
 
     # Muestra el resultado en una página simple
     html_content = f"""
     <!DOCTYPE html>
     <html>
-    <head><title>App Restaurante</title></head>
+    <head><title>Prueba de Conexión</title></head>
     <body>
-        <h1>Sistema de Pedidos del Restaurante</h1>
-        <p>Estado de la base de datos (Supabase):</p>
+        <h1>Prueba de Conexión a Supabase</h1>
+        <p>Estado del servicio:</p>
         <p><strong>{resultado}</strong></p>
-        <p>¡El siguiente paso es crear la interfaz de usuario para los pedidos!</p>
+        <p>URL del Proyecto: https://restaurante-o4bj.onrender.com</p>
     </body>
     </html>
     """
     return render_template_string(html_content)
-
-if __name__ == '__main__':
-    # Nota: Render usará gunicorn, no el servidor de desarrollo de Flask
-    app.run(debug=True)
