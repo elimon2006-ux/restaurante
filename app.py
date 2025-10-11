@@ -1,59 +1,56 @@
 import os
-from flask import Flask, render_template_string
+from flask import Flask, render_template # Importamos render_template
 import psycopg2
 
 app = Flask(__name__)
 
-# ... código inicial ...
-
 @app.route('/')
 def index():
+    # Leer la URL de la base de datos desde la variable de entorno de Render
     DATABASE_URL = os.environ.get('DATABASE_URL')
     
-    # ... manejo de errores ...
+    if not DATABASE_URL:
+        # Si la variable no existe, devuelve un error.
+        return "ERROR: La variable DATABASE_URL no está configurada.", 500
+    
+    conn = None
+    # Valores por defecto para la plantilla HTML
+    nombre_trabajador = "N/A - Trabajador no insertado"
+    turno_trabajador = "N/A"
+    estado_conexion = "ERROR"
     
     try:
+        # Intenta conectar a Supabase
         conn = psycopg2.connect(DATABASE_URL)
         cursor = conn.cursor()
         
-        # Consulta para OBTENER los datos que insertaste
+        # Consulta para OBTENER los datos del trabajador con ID=1
         cursor.execute("SELECT nombre, turno FROM trabajador WHERE id_trabajador = 1")
-        trabajador = cursor.fetchone() # recupera la primera fila de la consulta
+        trabajador = cursor.fetchone() 
         
         if trabajador:
-            # Asigna una tupla de datos a la variable 'resultado'
-            resultado = (trabajador[0], trabajador[1]) # ej: ('Andrea Gomez', 'Matutino')
+            # Asigna los valores a las variables de la plantilla:
+            nombre_trabajador = trabajador[0]
+            turno_trabajador = trabajador[1]
+            estado_conexion = "CONEXIÓN Y LECTURA DE DATOS EXITOSA. 🎉"
         else:
-            resultado = ("No se encontraron datos", "Asegúrate de que el id_trabajador=1 exista.")
+            estado_conexion = "CONEXIÓN EXITOSA, PERO NO SE ENCONTRÓ EL TRABAJADOR ID=1."
 
     except Exception as e:
-        resultado = (f"Error al conectar o consultar la BD: {e}", "Revisa tus tablas.")
+        estado_conexion = f"ERROR DE CONEXIÓN CRÍTICO: {e}"
         
     finally:
         if conn:
-            conn.close()
+            conn.close() # Cierra la conexión de forma segura
 
-    # Pasa la variable 'resultado' que contiene los datos a la plantilla HTML
-    # ...
+    # -----------------------------------------------------------------
+    # PARTE CLAVE: Retornar la plantilla HTML (templates/index.html)
+    # -----------------------------------------------------------------
+    # Flask buscará 'index.html' en la carpeta 'templates' 
+    # y le pasará las variables que creamos para que las muestre.
+    return render_template('index.html', 
+                           nombre=nombre_trabajador,
+                           turno=turno_trabajador,
+                           estado=estado_conexion)
 
-    # Muestra el resultado en una página simple
-   # Muestra el resultado en una página simple
-    html_content = f"""
-    <!DOCTYPE html>
-    <html>
-    <head><title>App Restaurante</title></head>
-    <body>
-        <h1>Sistema de Pedidos del Restaurante</h1>
-        <h2>Datos del Trabajador de Prueba (ID 1)</h2>
-        
-        <p><strong>Estado del Servicio:</strong> Conexión a Base de Datos Exitosa!</p>
-        
-        <p><strong>Nombre del Trabajador:</strong> {resultado[0]}</p>
-        <p><strong>Turno Asignado:</strong> {resultado[1]}</p>
-        
-        <hr>
-        <p>¡El siguiente paso es crear la interfaz de usuario para los pedidos!</p>
-    </body>
-    </html>
-    """
-    return render_template_string(html_content)
+# Nota: No se incluye if __name__ == '__main__': porque Gunicorn lo maneja.
