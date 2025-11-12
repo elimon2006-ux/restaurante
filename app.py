@@ -10,7 +10,7 @@ app.secret_key = os.getenv("SECRET_KEY", "clave_super_secreta")
 # 🔧 Configuración de Supabase
 # Asegúrate de reemplazar "TU_API_KEY" con la clave de tu proyecto
 SUPABASE_URL = os.getenv("SUPABASE_URL", "https://cwyjhnxowglgqbqzshyd.supabase.co")
-SUPABASE_KEY = os.getenv("SUPABASE_KEY", "TU_API_KEY") 
+SUPABASE_KEY = os.getenv("SUPABASE_KEY", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN3dmpobnhvd2dsZ3FicXpzaHlkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAxMDE0NTQsImV4cCI6MjA3NTY3NzQ1NH0.lbW8TGXa7_WFoFeWE6Vfgt3kl2SdnyFt3Dv_vhgw1Qw") 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 
