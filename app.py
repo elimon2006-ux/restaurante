@@ -20,6 +20,9 @@ SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 if not SUPABASE_URL or not SUPABASE_KEY:
     raise ValueError("❌ Faltan variables SUPABASE_URL o SUPABASE_KEY en el archivo .env")
 
+print("🔍 DEBUG: SUPABASE_URL =", SUPABASE_URL)
+print("🔍 DEBUG: SUPABASE_KEY (inicio) =", SUPABASE_KEY[:20], "...")
+
 # Crear cliente Supabase
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
