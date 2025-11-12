@@ -8,7 +8,7 @@ app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY", "clave_super_secreta") 
 
 # 🔧 Configuración de Supabase
-# Asegúrate de reemplazar estos valores con los de tu proyecto
+# Asegúrate de reemplazar "TU_API_KEY" con la clave de tu proyecto
 SUPABASE_URL = os.getenv("SUPABASE_URL", "https://cwyjhnxowglgqbqzshyd.supabase.co")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY", "TU_API_KEY") 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
@@ -19,7 +19,7 @@ supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 def index():
     if "user" in session:
         usuario = session["user"]
-        # Nota: Usamos 'id_trabajador' porque así se llama el campo en la tabla Cocinero
+        # Nota: 'id_trabajador' es el campo correcto de la DB
         return render_template("index.html", usuario=usuario) 
     return redirect(url_for('login'))
 
@@ -28,36 +28,35 @@ def index():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        id_trabajador = request.form['id_trabajo'] # El input del formulario se llama 'id_trabajo'
+        # Nota: El input se llama 'id_trabajo', pero la columna es 'id_trabajador'
+        id_trabajador = request.form['id_trabajo']
         nombre = request.form['nombre']
         
         usuario_actual = None
 
-        # 1. Buscar en tabla "cocinero" por id_trabajador y nombre
-        # Nota: El campo correcto en tu DB es 'id_trabajador'
+        # 1. Buscar en tabla "cocinero"
         response = supabase.table('cocinero').select('*').eq('id_trabajador', id_trabajador).eq('nombre', nombre).execute()
         
         if response.data:
             # Caso A: El usuario ya existe, lo usamos.
             usuario_actual = response.data[0]
-            print(f"DEBUG: Usuario encontrado: {usuario_actual['nombre']}")
         else:
             # Caso B: El usuario NO existe, intentamos registrarlo.
-
-            # Buscamos si el ID ya existe solo para dar un mejor mensaje de error
-            id_check = supabase.table('cocinero').select('*').eq('id_trabajador', id_trabajador).execute()
+            
+            # Chequeo extra para IDs duplicados
+            id_check = supabase.table('cocinero').select('nombre').eq('id_trabajador', id_trabajador).execute()
             if id_check.data:
                 return "⚠️ El ID de trabajo ya existe con otro nombre o datos. Contacte al administrador."
 
-            # Realizamos la inserción del nuevo usuario con datos temporales/por defecto
             try:
-                # Datos requeridos por la tabla Cocinero (NOT NULL)
+                # Proveemos valores NOT NULL requeridos por tu esquema SQL:
                 new_user_data = {
                     'id_trabajador': id_trabajador,
                     'nombre': nombre,
                     'fecha_ingreso': datetime.now().isoformat().split('T')[0],
                     'turno': 'Sin Asignar', 
-                    'correo': f'temp_{id_trabajador}@restaurante.com', 
+                    # Añadimos marca de tiempo al correo para asegurar unicidad:
+                    'correo': f'temp_{id_trabajador}_{datetime.now().strftime("%H%M%S")}@restaurante.com', 
                     'especialidad': 'General',
                     'años_experiencia': 0
                 }
@@ -66,35 +65,33 @@ def login():
                 
                 if insert_response.data:
                     usuario_actual = insert_response.data[0]
-                    print(f"DEBUG: Nuevo usuario registrado: {usuario_actual['nombre']}")
                 else:
                     return "⚠️ Error al registrar el nuevo usuario en Supabase."
 
             except Exception as e:
                 print(f"ERROR: Falló el INSERT en Cocinero: {e}")
-                return "⚠️ Error de Supabase al intentar registrar el usuario. Revisa el RLS o las restricciones."
+                return f"⚠️ Error de Supabase al registrar. Error: {e}"
 
 
-        # Si tenemos un usuario (ya sea encontrado o recién creado)
+        # Si tenemos un usuario (encontrado o recién creado)
         if usuario_actual:
             session['user'] = usuario_actual
 
-            # 2. Registrar el inicio en la nueva tabla de sesiones (Sesion_Cocinero)
-            # REQUISITO: DEBES CREAR LA TABLA Sesion_Cocinero EN SUPABASE
+            # 2. Registrar el inicio en la tabla de sesiones (Sesion_Cocinero)
+            # NOTA: Esta tabla debe existir en Supabase (ver NOTAS.md)
             try:
                 supabase.table('Sesion_Cocinero').insert({
                     'id_cocinero': usuario_actual['id_trabajador'], 
                     'fecha_login': datetime.now().isoformat(),
                     'estado': 'Activo'
                 }).execute()
-                print("DEBUG: Sesión registrada correctamente.")
             except Exception as e:
                 print(f"ERROR: Falló el registro en Sesion_Cocinero: {e}")
                 # El login continua aunque falle el registro de sesión
             
             return redirect(url_for('index'))
         
-        # Fallback si no se encontró ni se pudo registrar
+        # Fallback
         return "⚠️ Datos incorrectos o usuario no encontrado/registrado."
 
     return render_template('login.html')
@@ -108,5 +105,4 @@ def logout():
 
 
 if __name__ == '__main__':
-    # Usamos 127.0.0.1 en lugar de 0.0.0.0 para entornos de desarrollo local
-    app.run(host='127.0.0.1', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000)
