@@ -1,115 +1,132 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from supabase import create_client, Client
 from datetime import datetime
+from dotenv import load_dotenv
 import os
 
-app = Flask(__name__)
-# RECUERDA: Clave secreta para cifrar sesiones. Cambia este valor por tu propia clave aleatoria para producción.
-app.secret_key = os.getenv("SECRET_KEY", "b3a5c8e0d1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8") 
+# ✅ Cargar variables de entorno desde .env
+load_dotenv()
 
-# 🔧 Configuracion de Supabase
-# Asegurate de reemplazar "TU_API_KEY" con la clave publica (anon) de tu proyecto
-SUPABASE_URL = os.getenv("SUPABASE_URL", "https://cwyjhnxowglgqbqzshyd.supabase.co")
-SUPABASE_KEY = os.getenv("SUPABASE_KEY", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN3dmpobnhvd2dsZ3FicXpzaHlkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAxMDE0NTQsImV4cCI6MjA3NTY3NzQ1NH0.lbW8TGXa7_WFoFeWE6Vfgt3kl2SdnyFt3Dv_vhgw1Qw") 
+# Inicializar Flask
+app = Flask(__name__)
+
+# Clave secreta de sesión
+app.secret_key = os.getenv("SECRET_KEY", "clave_por_defecto_insegura")
+
+# 🔧 Configuración de Supabase
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+
+if not SUPABASE_URL or not SUPABASE_KEY:
+    raise ValueError("❌ Faltan variables SUPABASE_URL o SUPABASE_KEY en el archivo .env")
+
+# Crear cliente Supabase
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
+# 🧪 Probar conexión a Supabase al iniciar (sin usar count(*))
+try:
+    # Obtener solo una fila como prueba
+    test = supabase.table("cocinero").select("*").limit(1).execute()
+    print("✅ Conexión exitosa a Supabase. Se detectó la tabla 'cocinero'.")
+except Exception as e:
+    print(f"❌ Error al conectar a Supabase: {e}")
 
-# Pagina principal
+# ------------------------
+# 🏠 Página principal
+# ------------------------
 @app.route('/')
 def index():
     if "user" in session:
         usuario = session["user"]
-        # Pasa el objeto usuario (que contiene 'id_trabajador', 'nombre', etc.) al template
-        return render_template("index.html", usuario=usuario) 
+        return render_template("index.html", usuario=usuario)
     return redirect(url_for('login'))
 
-
-# Login y Registro (Si no existe, se registra como nuevo cocinero)
+# ------------------------
+# 🔐 Login / Registro
+# ------------------------
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        # El formulario HTML envia 'id_trabajo', lo asignamos al nombre de columna correcto
-        id_input = request.form['id_trabajo']
-        nombre = request.form['nombre']
-        
+        id_input = request.form.get('id_trabajo')
+        nombre = request.form.get('nombre')
+
+        if not id_input or not nombre:
+            return "⚠️ Faltan datos en el formulario."
+
         usuario_actual = None
 
-        # 1. Buscar en tabla "cocinero" usando el nombre de columna correcto: 'id_trabajador'
+        # Buscar usuario existente
         try:
-            response = supabase.table('cocinero').select('*').eq('id_trabajador', id_input).eq('nombre', nombre).execute()
+            response = supabase.table('cocinero') \
+                .select('*') \
+                .eq('id_trabajador', id_input) \
+                .eq('nombre', nombre) \
+                .execute()
         except Exception as e:
-            # Error critico al hacer la consulta SELECT (probablemente clave de API o URL incorrecta)
             print(f"ERROR CRÍTICO (SELECT): {e}")
-            return f"⚠️ Error de conexion a Supabase al buscar usuario. Revise URL/Key. Error: {e}"
+            return f"⚠️ Error de conexión a Supabase al buscar usuario: {e}"
 
-        
         if response.data:
-            # Caso A: El usuario ya existe, lo usamos.
             usuario_actual = response.data[0]
             print(f"DEBUG: Usuario encontrado: {usuario_actual.get('nombre')}")
         else:
-            # Caso B: El usuario NO existe, intentamos registrarlo.
-            
-            # Chequeo si el ID ya existe con otro nombre (para evitar error de integridad)
+            # Verificar si el ID ya existe con otro nombre
             id_check = supabase.table('cocinero').select('nombre').eq('id_trabajador', id_input).execute()
             if id_check.data:
                 return "⚠️ El ID de trabajo ya existe con otro nombre. Contacte al administrador."
 
             try:
-                # Proveemos valores NOT NULL requeridos por tu esquema SQL:
                 new_user_data = {
                     'id_trabajador': id_input,
                     'nombre': nombre,
                     'fecha_ingreso': datetime.now().isoformat().split('T')[0],
-                    'turno': 'Sin Asignar', 
-                    'correo': f'temp_{id_input}_{datetime.now().strftime("%H%M%S")}@restaurante.com', 
+                    'turno': 'Sin Asignar',
+                    'correo': f'temp_{id_input}_{datetime.now().strftime("%H%M%S")}@restaurante.com',
                     'especialidad': 'General',
                     'años_experiencia': 0
                 }
-                
+
                 insert_response = supabase.table('cocinero').insert(new_user_data).execute()
-                
+
                 if insert_response.data:
                     usuario_actual = insert_response.data[0]
                     print(f"DEBUG: Nuevo usuario registrado: {usuario_actual.get('nombre')}")
                 else:
-                    return "⚠️ Error al registrar el nuevo usuario en Supabase (respuesta vacia)."
+                    return "⚠️ Error al registrar el nuevo usuario en Supabase."
 
             except Exception as e:
-                # Si esto falla, el problema es RLS o falta de la tabla.
-                print(f"ERROR CRÍTICO (INSERT): Fallo el INSERT en Cocinero: {e}")
-                return f"⚠️ Error de Supabase al registrar. Revise RLS y la tabla Cocinero. Error: {e}"
+                print(f"ERROR CRÍTICO (INSERT): {e}")
+                return f"⚠️ Error al registrar en Supabase. Revise RLS o esquema. Error: {e}"
 
-
-        # Si tenemos un usuario (encontrado o recien creado)
         if usuario_actual:
             session['user'] = usuario_actual
 
-            # 2. Registrar el inicio en la tabla de sesiones (Sesion_Cocinero)
+            # Registrar sesión del cocinero
             try:
                 supabase.table('Sesion_Cocinero').insert({
-                    'id_cocinero': usuario_actual['id_trabajador'], 
+                    'id_cocinero': usuario_actual['id_trabajador'],
                     'fecha_login': datetime.now().isoformat(),
                     'estado': 'Activo'
                 }).execute()
             except Exception as e:
-                # Esto es un warning. El login es exitoso, pero la sesion no se registro en BD.
-                print(f"WARNING: Fallo el registro en Sesion_Cocinero. Asegurese de que la tabla exista. {e}") 
-            
+                print(f"WARNING: No se pudo registrar la sesión. {e}")
+
             return redirect(url_for('index'))
-        
-        # Fallback
-        return "⚠️ Datos incorrectos o usuario no encontrado/registrado."
+
+        return "⚠️ Usuario no encontrado o datos incorrectos."
 
     return render_template('login.html')
 
-
-# Cerrar sesion
+# ------------------------
+# 🚪 Cerrar sesión
+# ------------------------
 @app.route('/logout')
 def logout():
     session.pop('user', None)
     return redirect(url_for('login'))
 
-
+# ------------------------
+# 🚀 Ejecutar servidor Flask
+# ------------------------
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000, debug=True)
