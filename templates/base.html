@@ -5,19 +5,31 @@
     <title>Mi Restaurante</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
 
+<!-- NAVBAR -->
 <nav class="navbar">
-    <a href="/">Inicio</a>
-    <a href="/login">Iniciar Sesión</a>
-    <a href="/register">Registrarse</a>
 
-    {% if session.get('user') %}
-        <a href="/dashboard">Dashboard</a>
-        <a href="/logout">Salir</a>
-    {% endif %}
+    <div class="nav-left">
+        <div class="nav-title">Mi Restaurante</div>
+    </div>
+
+    <div class="nav-right">
+        <a href="/">Inicio</a>
+        <a href="/login">Iniciar Sesión</a>
+        <a href="/register">Registrarse</a>
+
+        {% if session.get('user') %}
+            <a href="/dashboard">Dashboard</a>
+            <a href="/logout">Salir</a>
+        {% endif %}
+    </div>
+
 </nav>
 
+
+<!-- CONTENIDO -->
 <div class="content">
     {% block content %}{% endblock %}
 </div>

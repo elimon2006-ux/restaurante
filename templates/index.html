@@ -1,7 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
-<h1 class="titulo">Bienvenido a Mi Restaurante</h1>
-<p class="subtitulo">Sabor vintage y elegante</p>
-<a href="/login" class="btn">Iniciar Sesión</a>
-<a href="/register" class="btn">Registrarse</a>
+
+<div class="hero">
+    <h1 class="hero-title">Bienvenido a Mi restaurante</h1>
+    <p class="hero-subtitle">Elegancia, tradición y sabor</p>
+
+    <div class="hero-buttons">
+        <a href="/login" class="btn">Iniciar Sesión</a>
+        <a href="/register" class="btn btn-outline">Registrarse</a>
+    </div>
+</div>
+
 {% endblock %}

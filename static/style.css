@@ -1,90 +1,200 @@
+/* =============================
+   ESTILO VINTAGE ELEGANTE
+   Negro + Rojo oscuro
+   ============================= */
+
 body {
-    background: #0e0e0e; /* Negro suave, no puro */
+    background: #1b1b1b;                /* Negro suave */
+    color: #f2f2f2;                     /* Blanco suave */
     font-family: "Georgia", serif;
+    margin: 0;
+    padding: 0;
     text-align: center;
-    color: #e6e6e6; /* Blanco suave para evitar contraste fuerte */
 }
 
-/* NAVBAR */
+/* =============================
+   NAVBAR
+   ============================= */
+
 .navbar {
-    background: #1a1a1a; /* Negro profundo */
+    background: #3b0000;                /* Rojo oscuro */
     padding: 15px;
-    border-bottom: 2px solid #8b1e1e; /* Rojo oscuro elegante */
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.5);
 }
 
 .navbar a {
-    color: #e6e6e6;
-    margin: 0 15px;
+    color: #f2f2f2;
     text-decoration: none;
     font-weight: bold;
+    font-size: 18px;
+    letter-spacing: 1px;
     transition: 0.3s;
 }
 
 .navbar a:hover {
-    color: #b32626; /* Rojo oscuro */
+    color: #e60000;                     /* Rojo más vibrante */
 }
 
-/* TÍTULOS */
-.titulo {
-    font-size: 40px;
-    margin-top: 80px;
-    color: #b32626; /* Rojo vintage */
-    letter-spacing: 1px;
-}
+/* =============================
+   TITULOS
+   ============================= */
 
-.subtitulo {
-    font-size: 20px;
-    margin-bottom: 40px;
-    color: #944343; /* Rojo café-vintage */
-}
-
-/* INPUTS */
-input {
-    display: block;
-    margin: 10px auto;
-    padding: 12px;
-    width: 280px;
-    border-radius: 8px;
-    background: #1a1a1a;
-    border: 1px solid #8b1e1e;
-    color: #e6e6e6;
-}
-
-input::placeholder {
-    color: #888;
-}
-
-/* BOTONES */
-.btn {
-    background: #8b1e1e; /* Rojo oscuro */
-    color: #f5f5f5;
-    padding: 12px 25px;
+h1, h2, h3 {
     margin: 10px;
-    border-radius: 8px;
+    font-weight: normal;
+}
+
+.titulo, .hero-title {
+    font-size: 48px;
+    color: #e0d6c2;                     /* Beige vintage */
+    text-shadow: 0 0 10px rgba(255,255,255,0.1);
+}
+
+.subtitulo, .hero-subtitle {
+    color: #d1b7a3;
+    font-size: 22px;
+}
+
+/* =============================
+   HERO SECTION (inicio)
+   ============================= */
+
+.hero {
+    text-align: center;
+    margin-top: 80px;
+}
+
+.hero-title {
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.hero-subtitle {
+    font-size: 22px;
+    margin-top: 10px;
+}
+
+.hero-buttons {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* =============================
+   BOTONES
+   ============================= */
+
+.btn {
+    background: #3b0000;            /* Rojo elegante */
+    color: white;
+    padding: 12px 28px;
+    border-radius: 10px;
     text-decoration: none;
-    display: inline-block;
+    font-size: 18px;
     transition: 0.3s;
+    border: none;
 }
 
 .btn:hover {
-    background: #a32424; /* Un poco más claro */
+    background: #5a0000;            /* Rojo más claro */
 }
 
-/* TARJETAS */
+.btn-outline {
+    background: transparent;
+    border: 2px solid #3b0000;
+}
+
+.btn-outline:hover {
+    background: #3b0000;
+    color: white;
+}
+
+/* =============================
+   FORMULARIOS
+   ============================= */
+
+form {
+    margin-top: 30px;
+}
+
+input {
+    display: block;
+    margin: 12px auto;
+    padding: 14px;
+    width: 320px;
+    background: #2a2a2a;
+    border: 2px solid #3b0000;
+    border-radius: 10px;
+    color: #f2f2f2;
+    font-size: 16px;
+}
+
+input::placeholder {
+    color: #c8c8c8;
+}
+
+input:focus {
+    border-color: #e60000;
+    outline: none;
+}
+
+/* =============================
+   TARJETAS
+   ============================= */
+
 .card {
-    background: #111; /* Negro elegante */
-    width: 300px;
-    margin: 30px auto;
-    padding: 20px;
+    background: #2a2a2a;
+    width: 340px;
+    margin: 40px auto;
+    padding: 25px;
     border-radius: 12px;
-    box-shadow: 0 0 15px rgba(139, 30, 30, 0.25); /* Glow rojo muy suave */
-    border: 1px solid #2d2d2d; /* Para dar sensación premium */
+    box-shadow: 0 0 15px rgba(255,0,0,0.15);
+    color: #f2f2f2;
 }
 
-.card h3 {
-    color: #b32626;
+/* =============================
+   CONTENEDOR GENERAL
+   ============================= */
+
+.content {
+    padding: 20px;
 }
 
-.card p {
-    color: #d9d9d9;
+/* NAVBAR CON TÍTULO A LA IZQUIERDA */
+.navbar {
+    background: #330000;
+    padding: 15px 25px;
+    display: flex;
+    justify-content: space-between; /* título izquierda — links derecha */
+    align-items: center;
+    border-bottom: 3px solid #5c0a0a;
+}
+
+/* Título */
+.nav-title {
+    font-size: 26px;
+    color: #e0d6c2;
+    font-weight: bold;
+    font-family: Georgia;
+}
+
+/* Links */
+.nav-right {
+    display: flex;
+    gap: 25px;
+}
+
+.nav-right a {
+    color: #f2e9dc;
+    font-size: 18px;
+    text-decoration: none;
+    font-family: Georgia;
+}
+
+.nav-right a:hover {
+    color: #ffb3b3;
 }

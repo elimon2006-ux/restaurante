@@ -1,11 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Iniciar Sesión</h2>
 
-<form method="POST">
-    <input type="email" name="correo" placeholder="Correo" required>
-    <input type="password" name="contrasena" placeholder="Contraseña" required>
-    <button class="btn">Entrar</button>
-</form>
+<div class="form-card">
+    <h2>Iniciar Sesión</h2>
+
+    <form method="POST">
+        <label>Correo</label>
+        <input type="email" name="correo" required>
+
+        <label>Contraseña</label>
+        <input type="password" name="contrasena" required>
+
+        <button class="btn">Entrar</button>
+    </form>
+</div>
 
 {% endblock %}

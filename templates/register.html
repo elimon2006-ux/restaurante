@@ -1,21 +1,39 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Registro de Cliente</h2>
 
-<form method="POST">
-    <input type="text" name="nombre" placeholder="Nombre" required>
-    <input type="email" name="correo" placeholder="Correo" required>
-    <input type="text" name="telefono" placeholder="Teléfono" required>
+<div class="form-card">
+    <h2>Registro de Cliente</h2>
 
-    <input type="password" name="contrasena" placeholder="Contraseña" required>
+    <form method="POST">
 
-    <h3>Dirección</h3>
-    <input type="text" name="calle" placeholder="Calle" required>
-    <input type="text" name="numero" placeholder="Número" required>
-    <input type="text" name="colonia" placeholder="Colonia" required>
-    <input type="text" name="ciudad" placeholder="Ciudad" required>
+        <label>Nombre completo</label>
+        <input type="text" name="nombre" required>
 
-    <button class="btn">Registrarme</button>
-</form>
+        <label>Correo</label>
+        <input type="email" name="correo" required>
+
+        <label>Teléfono</label>
+        <input type="text" name="telefono" required>
+
+        <label>Contraseña</label>
+        <input type="password" name="contrasena" required>
+
+        <h3>Dirección</h3>
+
+        <label>Calle</label>
+        <input type="text" name="calle" required>
+
+        <label>Número</label>
+        <input type="text" name="numero" required>
+
+        <label>Colonia</label>
+        <input type="text" name="colonia" required>
+
+        <label>Ciudad</label>
+        <input type="text" name="ciudad" required>
+
+        <button class="btn">Registrarme</button>
+    </form>
+</div>
 
 {% endblock %}
