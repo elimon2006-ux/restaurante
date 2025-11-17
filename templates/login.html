@@ -1,24 +1,11 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Restaurante</title>
-    <!-- El enlace al CSS va aquí: -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <div class="login-container">
-        <h2>Ingreso de Trabajador</h2>
-        <form method="POST" action="/login">
-            <label for="id_trabajo">ID de trabajador:</label>
-            <input type="text" id="id_trabajo" name="id_trabajo" required><br>
+{% extends "base.html" %}
+{% block content %}
+<h2>Iniciar Sesión</h2>
 
-            <label for="nombre">Nombre Completo:</label>
-            <input type="text" id="nombre" name="nombre" required><br>
+<form method="POST">
+    <input type="email" name="correo" placeholder="Correo" required>
+    <input type="password" name="contrasena" placeholder="Contraseña" required>
+    <button class="btn">Entrar</button>
+</form>
 
-            <button type="submit">Ingresar o Registrarse</button>
-        </form>
-    </div>
-</body>
-</html>
+{% endblock %}

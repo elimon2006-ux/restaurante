@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mi Restaurante</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="/">Inicio</a>
+    <a href="/login">Iniciar Sesión</a>
+    <a href="/register">Registrarse</a>
+
+    {% if session.get('user') %}
+        <a href="/dashboard">Dashboard</a>
+        <a href="/logout">Salir</a>
+    {% endif %}
+</nav>
+
+<div class="content">
+    {% block content %}{% endblock %}
+</div>
+
+</body>
+</html>

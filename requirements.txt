@@ -1,4 +1,3 @@
 flask
+python-dotenv
 supabase
-gunicorn
-python-dotenv  # Nueva dependencia para cargar el archivo .env

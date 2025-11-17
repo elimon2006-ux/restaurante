@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Bienvenido, {{ user.nombre }}</h2>
+
+<p><b>Correo:</b> {{ user.correo }}</p>
+<p><b>Teléfono:</b> {{ user.telefono }}</p>
+
+<h3>Dirección</h3>
+<p>{{ user.calle }} #{{ user.numero }}, {{ user.colonia }}, {{ user.ciudad }}</p>
+
+<div class="card">
+    <h3>Reservaciones próximamente…</h3>
+</div>
+
+{% endblock %}

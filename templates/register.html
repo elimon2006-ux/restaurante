@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Registro de Cliente</h2>
+
+<form method="POST">
+    <input type="text" name="nombre" placeholder="Nombre" required>
+    <input type="email" name="correo" placeholder="Correo" required>
+    <input type="text" name="telefono" placeholder="Teléfono" required>
+
+    <input type="password" name="contrasena" placeholder="Contraseña" required>
+
+    <h3>Dirección</h3>
+    <input type="text" name="calle" placeholder="Calle" required>
+    <input type="text" name="numero" placeholder="Número" required>
+    <input type="text" name="colonia" placeholder="Colonia" required>
+    <input type="text" name="ciudad" placeholder="Ciudad" required>
+
+    <button class="btn">Registrarme</button>
+</form>
+
+{% endblock %}
