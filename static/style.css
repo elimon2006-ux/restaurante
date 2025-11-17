@@ -1,57 +1,105 @@
+/* ----------- ESTILO GENERAL ----------- */
+
 body {
-    background: #f5efe6;
-    font-family: "Georgia";
+    background-color: #0B0B0B;
+    color: #F5F5F5;
+    font-family: "Poppins", sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* ----------- CONTENEDOR PRINCIPAL ----------- */
+
+.container {
+    width: 380px;
+    margin: 50px auto;
+    background: #141414;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(178, 34, 34, 0.4); /* rojo oscuro */
+}
+
+/* ----------- TITULOS ----------- */
+
+h1, h2 {
     text-align: center;
-}
-
-.navbar {
-    background: #7b4f3c;
-    padding: 15px;
-}
-
-.navbar a {
-    color: #f5efe6;
-    margin: 0 15px;
-    text-decoration: none;
+    color: #FF4343; /* rojo vibrante */
+    margin-bottom: 25px;
     font-weight: bold;
 }
 
-.titulo {
-    font-size: 40px;
-    margin-top: 80px;
-    color: #4a2e2a;
-}
-
-.subtitulo {
-    font-size: 20px;
-    margin-bottom: 40px;
-    color: #7b4f3c;
-}
+/* ----------- INPUTS ----------- */
 
 input {
-    display: block;
-    margin: 10px auto;
+    width: 100%;
     padding: 12px;
-    width: 280px;
-    border-radius: 8px;
-    border: 1px solid #7b4f3c;
+    margin-top: 8px;
+    margin-bottom: 18px;
+    background: #1a1a1a;
+    border: 2px solid #262626;
+    border-radius: 10px;
+    color: #F5F5F5;
+    font-size: 15px;
+    transition: 0.3s ease;
 }
 
-.btn {
-    background: #7b4f3c;
-    color: white;
-    padding: 12px 25px;
-    margin: 10px;
-    border-radius: 8px;
+input:focus {
+    border-color: #FF4343;
+    outline: none;
+    box-shadow: 0 0 10px rgba(255, 67, 67, 0.5);
+}
+
+/* ----------- BOTÓN PRINCIPAL ----------- */
+
+button {
+    width: 100%;
+    background-color: #B22222; /* rojo elegante */
+    color: #FFF;
+    padding: 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s ease;
+}
+
+button:hover {
+    background-color: #FF4343;
+    transform: scale(1.05);
+}
+
+/* ----------- LINKS ----------- */
+
+a {
+    color: #FF4343;
     text-decoration: none;
-    display: inline-block;
+    font-size: 14px;
+    transition: 0.3s ease;
 }
 
-.card {
-    background: white;
-    width: 300px;
-    margin: 30px auto;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 0 10px #c4b8af;
+a:hover {
+    color: #B22222;
+}
+
+/* ----------- NAVBAR (si deseas usarla) ----------- */
+
+.navbar {
+    width: 100%;
+    background: #141414;
+    padding: 15px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(178, 34, 34, 0.2);
+}
+
+.navbar a {
+    color: #FF4343;
+    margin: 0 15px;
+    font-weight: 600;
+}
+
+.navbar a:hover {
+    color: #F5F5F5;
 }
