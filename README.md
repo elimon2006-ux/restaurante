@@ -23,26 +23,31 @@ Está desarrollado usando Python (Flask) en el backend, HTML + CSS en el fronten
 
 # 🖼 **Capturas de Pantalla**
 
-### 1. Página de Inicio / Login
+### 1. Página de Inicio 
 
 <img width="1919" height="876" alt="image" src="https://github.com/user-attachments/assets/2fa55aba-7fc4-460d-b199-9a4f230c11b5" />
 
+### 2. Login
 
-### 2. Registro de Clientes
+<img width="1919" height="873" alt="image" src="https://github.com/user-attachments/assets/e3c1d228-2f91-4c86-8c5f-c48ccda1678a" />
 
-![Registro](https://via.placeholder.com/800x400?text=Registro+Clientes)
+### 3. Registro de Clientes
 
-### 3. Menú de Platillos
+<img width="1919" height="877" alt="image" src="https://github.com/user-attachments/assets/7da68f99-cba9-4307-bc5c-50d492365f25" />
+<img width="1919" height="876" alt="image" src="https://github.com/user-attachments/assets/3b8a7cb3-fb43-481b-8d44-c30613dc982a" />
 
-![Menú](https://via.placeholder.com/800x400?text=Menú+de+Platillos)
+### 4. Menú de Platillos
 
-### 4. Carrito de Pedidos
+<img width="1914" height="882" alt="image" src="https://github.com/user-attachments/assets/a12bddca-3eb0-4930-ab84-b1d0b53ade3c" />
 
-![Mi Pedido](https://via.placeholder.com/800x400?text=Mi+Pedido)
+### 5. Carrito de Pedidos
 
-### 5. Dashboard del Usuario
+<img width="1919" height="877" alt="image" src="https://github.com/user-attachments/assets/773f63ed-801c-4979-adbe-6b2a705a9b44" />
 
-![Dashboard](https://via.placeholder.com/800x400?text=Dashboard+Usuario)
+
+### 6. Dashboard del Usuario
+
+<img width="1919" height="877" alt="image" src="https://github.com/user-attachments/assets/ba077b20-949c-4c45-a521-46909d01f6ce" />
 
 > 🔹 Puedes reemplazar los enlaces de placeholder con capturas reales de tu aplicación.
 
