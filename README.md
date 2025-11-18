@@ -34,7 +34,7 @@ Está desarrollado usando Python (Flask) en el backend, HTML + CSS en el fronten
 ### 3. Registro de Clientes
 
 <img width="1919" height="877" alt="image" src="https://github.com/user-attachments/assets/7da68f99-cba9-4307-bc5c-50d492365f25" />
-<img width="1919" height="876" alt="image" src="https://github.com/user-attachments/assets/3b8a7cb3-fb43-481b-8d44-c30613dc982a" />
+<img width="1913" height="718" alt="image" src="https://github.com/user-attachments/assets/942229d5-eff2-4df3-98b9-da1d363d75c1" />
 
 ### 4. Menú de Platillos
 
