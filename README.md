@@ -133,7 +133,7 @@ venv/
 | tipo_pedido | VARCHAR    |
 | fecha       | TIMESTAMP  |
 
-###📦 ***Detalle Pedido***
+### 📦 ***Detalle Pedido***
 
 | Campo           | Tipo                     |
 | --------------- | ------------------------ |
