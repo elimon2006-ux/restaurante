@@ -133,6 +133,16 @@ venv/
 | tipo_pedido | VARCHAR    |
 | fecha       | TIMESTAMP  |
 
+###📦 ***Detalle Pedido***
+
+| Campo           | Tipo                     |
+| --------------- | ------------------------ |
+| id_detalle      | SERIAL PK                |
+| id_pedido       | INTEGER FK (→ pedidos)   |
+| id_platillo     | INTEGER FK (→ platillos) |
+| cantidad        | INTEGER                  |
+| precio_unitario | NUMERIC                  |
+
 ---
 
 # 🔧 **Flujo de la Aplicación**
