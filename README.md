@@ -49,8 +49,6 @@ Está desarrollado usando Python (Flask) en el backend, HTML + CSS en el fronten
 
 <img width="1919" height="877" alt="image" src="https://github.com/user-attachments/assets/ba077b20-949c-4c45-a521-46909d01f6ce" />
 
-> 🔹 Puedes reemplazar los enlaces de placeholder con capturas reales de tu aplicación.
-
 ---
 
 # 🧱 **Tecnologías Utilizadas**
