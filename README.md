@@ -1,185 +1,162 @@
-
-# 🍽️ **Sistema Web de Restaurante — Flask + Supabase + PostgreSQL**
+# 🍽️ **Sistema Web de Restaurante — Flask + Supabase + PostgreSQL + SQLAlchemy (ORM)**
 
 [![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python)](https://www.python.org/)
 [![Flask](https://img.shields.io/badge/Flask-2.3.2-lightgrey?logo=flask)](https://flask.palletsprojects.com/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15.5-blue?logo=postgresql)](https://www.postgresql.org/)
 [![Supabase](https://img.shields.io/badge/Supabase-2025-green?logo=supabase)](https://supabase.com/)
+[![SQLAlchemy](https://img.shields.io/badge/ORM-SQL_SQLAlchemy-red)](https://www.sqlalchemy.org/)
 
-Este proyecto es una aplicación web completa para la gestión de un restaurante, permitiendo registrar clientes, ver el menú, agregar pedidos y administrarlos de forma sencilla.
-Está desarrollado usando Python (Flask) en el backend, HTML + CSS en el frontend, y Supabase (PostgreSQL) como base de datos.
+Este proyecto es una **aplicación web completa para la gestión de un restaurante**, que permite registrar clientes, iniciar sesión, visualizar el menú, agregar pedidos y administrarlos de forma sencilla.
+
+Está desarrollado con **Flask** en el backend, **HTML + CSS + Jinja2** en el frontend y **Supabase (PostgreSQL)** como base de datos. Para el acceso a datos se utiliza **SQLAlchemy (ORM)**, principalmente en el módulo de **login y registro de clientes**.
 
 ---
 
 # 🎯 **Objetivos del Proyecto**
 
 * Registro e inicio de sesión de clientes
-* Visualización del menú de platillos
-* Gestión completa de pedidos (agregar, modificar, eliminar)
-* Confirmación de pedidos y cálculo de totales
-* Panel de usuario (dashboard) para seguimiento de pedidos
+* Uso de ORM (SQLAlchemy) para el manejo de usuarios
+* Visualización del menú de platillos por categorías
+* Gestión completa de pedidos (carrito)
+* Confirmación de pedidos y cálculo automático de totales
+* Panel de usuario (dashboard)
 
 ---
 
 # 🖼 **Capturas de Pantalla**
 
-### 1. Página de Inicio 
+### 1. Página de Inicio
 
-<img width="1919" height="876" alt="image" src="https://github.com/user-attachments/assets/2fa55aba-7fc4-460d-b199-9a4f230c11b5" />
+<img width="1919" height="876" src="https://github.com/user-attachments/assets/2fa55aba-7fc4-460d-b199-9a4f230c11b5" />
 
 ### 2. Login
 
-<img width="1919" height="873" alt="image" src="https://github.com/user-attachments/assets/e3c1d228-2f91-4c86-8c5f-c48ccda1678a" />
+<img width="1919" height="873" src="https://github.com/user-attachments/assets/e3c1d228-2f91-4c86-8c5f-c48ccda1678a" />
 
 ### 3. Registro de Clientes
 
-<img width="1919" height="877" alt="image" src="https://github.com/user-attachments/assets/7da68f99-cba9-4307-bc5c-50d492365f25" />
-<img width="1913" height="718" alt="image" src="https://github.com/user-attachments/assets/942229d5-eff2-4df3-98b9-da1d363d75c1" />
+<img width="1919" height="877" src="https://github.com/user-attachments/assets/7da68f99-cba9-4307-bc5c-50d492365f25" />
+<img width="1913" height="718" src="https://github.com/user-attachments/assets/942229d5-eff2-4df3-98b9-da1d363d75c1" />
 
 ### 4. Menú de Platillos
 
-<img width="1914" height="882" alt="image" src="https://github.com/user-attachments/assets/a12bddca-3eb0-4930-ab84-b1d0b53ade3c" />
+<img width="1914" height="882" src="https://github.com/user-attachments/assets/a12bddca-3eb0-4930-ab84-b1d0b53ade3c" />
 
 ### 5. Carrito de Pedidos
 
-<img width="1919" height="877" alt="image" src="https://github.com/user-attachments/assets/773f63ed-801c-4979-adbe-6b2a705a9b44" />
-
+<img width="1919" height="877" src="https://github.com/user-attachments/assets/773f63ed-801c-4979-adbe-6b2a705a9b44" />
 
 ### 6. Dashboard del Usuario
 
-<img width="1919" height="877" alt="image" src="https://github.com/user-attachments/assets/ba077b20-949c-4c45-a521-46909d01f6ce" />
+<img width="1919" height="877" src="https://github.com/user-attachments/assets/ba077b20-949c-4c45-a521-46909d01f6ce" />
 
 ---
 
 # 🧱 **Tecnologías Utilizadas**
 
-* **Python (Flask)**: Backend web, manejo de rutas y sesiones
-* **HTML / CSS**: Interfaz visual (`static/style.css`)
-* **Jinja2**: Plantillas dinámicas
+* **Python + Flask**: Backend web y manejo de rutas
+* **SQLAlchemy (ORM)**: Acceso a base de datos usando modelos
 * **PostgreSQL (Supabase)**: Base de datos relacional
-* **dotenv**: Manejo de variables de entorno (`.env`)
+* **HTML / CSS**: Interfaz visual
+* **Jinja2**: Plantillas dinámicas
+* **dotenv**: Variables de entorno
 
 ---
 
 # 📁 **Estructura del Proyecto**
 
 ```
-restaurante/
+mi_restaurante/
 │
-├── static/
-│   └── style.css             # Estilos personalizados
+├── app/
+│   ├── __init__.py
+│   ├── main.py            # Rutas Flask
+│   ├── database.py        # Conexión ORM (SQLAlchemy)
+│   ├── models.py          # Modelos ORM
+│   ├── static/
+│   │   └── style.css
+│   └── templates/
+│       ├── base.html
+│       ├── index.html
+│       ├── login.html
+│       ├── register.html
+│       ├── menu.html
+│       ├── mi_pedido.html
+│       └── dashboard.html
 │
-├── templates/
-│   ├── index.html            # Página principal / login
-│   ├── register.html         # Registro de clientes
-│   ├── menu.html             # Menú de platillos
-│   ├── mi_pedido.html        # Carrito de pedidos
-│   └── dashboard.html        # Panel de usuario
-│
-├── .gitignore                # Archivos ignorados por Git
-├── app.py                    # Aplicación Flask
-├── .env                      # Variables de entorno
-├── requirements.txt          # Dependencias
-└── README.md                 # Documentación
-```
-
-**Archivo `.gitignore` sugerido:**
-
-```
-__pycache__/
-*.pyc
-*.pyo
-*.env
-venv/
-*.sqlite3
+├── .env
+├── .gitignore
+├── requirements.txt
+└── README.md
 ```
 
 ---
 
-# 🧾 **Modelo de Base de Datos**
+# 🧾 **Base de Datos y ORM**
 
-### 🧑 **Clientes**
+La base de datos está en **PostgreSQL (Supabase)** y el acceso se realiza mediante **SQLAlchemy**.
 
-| Campo          | Tipo      |
-| -------------- | --------- |
-| id_cliente     | SERIAL PK |
-| nombre         | VARCHAR   |
-| correo         | VARCHAR   |
-| telefono       | VARCHAR   |
-| contrasena     | VARCHAR   |
-| calle          | VARCHAR   |
-| numero         | VARCHAR   |
-| colonia        | VARCHAR   |
-| ciudad         | VARCHAR   |
-| fecha_registro | TIMESTAMP |
+### Ejemplo de modelo ORM (Cliente)
 
-### 🍽️ **Platillos**
+```python
+class Cliente(Base):
+    __tablename__ = "clientes"
 
-| Campo       | Tipo      |
-| ----------- | --------- |
-| id_platillo | SERIAL PK |
-| nombre      | VARCHAR   |
-| precio      | NUMERIC   |
-| categoria   | VARCHAR   |
-| descripcion | VARCHAR   |
+    id_cliente = Column(Integer, primary_key=True, index=True)
+    nombre = Column(String(100))
+    correo = Column(String(100), unique=True)
+    telefono = Column(String(15))
+    contrasena = Column(String(200))
+    calle = Column(String(50))
+    numero = Column(String(10))
+    colonia = Column(String(50))
+    ciudad = Column(String(50))
+```
 
-### 🧾 **Pedidos**
+🔹 **ORM se usa principalmente en:**
 
-| Campo       | Tipo       |
-| ----------- | ---------- |
-| id_pedido   | SERIAL PK  |
-| id_cliente  | INTEGER FK |
-| total       | NUMERIC    |
-| tipo_pedido | VARCHAR    |
-| fecha       | TIMESTAMP  |
+* Registro de clientes
+* Login
+* Dashboard
 
-### 📦 ***Detalle Pedido***
+🔹 **SQL directo se mantiene para:**
 
-| Campo           | Tipo                     |
-| --------------- | ------------------------ |
-| id_detalle      | SERIAL PK                |
-| id_pedido       | INTEGER FK (→ pedidos)   |
-| id_platillo     | INTEGER FK (→ platillos) |
-| cantidad        | INTEGER                  |
-| precio_unitario | NUMERIC                  |
+* Menú
+* Pedidos
+* Consultas complejas
 
 ---
 
 # 🔧 **Flujo de la Aplicación**
 
-1. Cliente inicia sesión (`/`) o se registra (`/register`)
-2. Accede al menú (`/menu`) y selecciona platillos
-3. Agrega platillos al carrito (`/agregar_pedido`)
-4. Visualiza y modifica el pedido (`/mi_pedido`)
-5. Confirma el pedido, que se registra en la base de datos (`/confirmar_pedido`)
-6. Puede cerrar sesión (`/logout`)
+1. Registro de cliente (ORM)
+2. Login (ORM)
+3. Acceso al menú solo con sesión iniciada
+4. Agregar platillos al carrito
+5. Confirmar pedido
+6. Visualizar datos del usuario en dashboard
+7. Cerrar sesión
 
 ---
 
-# 🧪 **Cómo Ejecutar Localmente**
+# 🧪 **Ejecución Local**
 
 ```bash
-# Clonar el repositorio
-git clone https://github.com/elimon2006-ux/restaurante_vulnerable.git
-cd restaurante_vulnerable
+git clone https://github.com/elimon2006-ux/restaurante.git
+cd mi_restaurante
 
-# Crear entorno virtual
 python -m venv venv
-venv\Scripts\activate       # Windows
-source venv/bin/activate    # Linux/Mac
-
-# Instalar dependencias
+venv\Scripts\activate
 pip install -r requirements.txt
 
-# Crear archivo .env
-DATABASE_URL=postgresql://usuario:password@host:port/dbname
-SECRET_KEY=clave-secreta
+# .env
+DATABASE_URL=postgresql://user:password@host:5432/postgres
+SECRET_KEY=clave_secreta
 
-# Ejecutar aplicación
-python app.py
+python -m app.main
 ```
 
-Abrir navegador en `http://127.0.0.1:5000/`
+Abrir en: `http://127.0.0.1:5000/`
 
 ---
 
@@ -194,8 +171,56 @@ Abrir navegador en `http://127.0.0.1:5000/`
 
 ---
 
+# 🔐 **Seguridad y Buenas Prácticas (Aplicación NO Vulnerable)**
+
+Este proyecto **no es una página vulnerable**, ya que implementa múltiples medidas de seguridad a nivel backend y base de datos:
+
+### ✅ Autenticación segura
+
+* Contraseñas **encriptadas** usando `werkzeug.security.generate_password_hash`
+* Verificación segura con `check_password_hash`
+* Nunca se almacenan contraseñas en texto plano
+
+### ✅ Protección contra SQL Injection
+
+* Uso de **ORM (SQLAlchemy)** para consultas críticas como login y registro
+* El ORM genera consultas parametrizadas automáticamente
+* No se concatenan strings SQL manualmente
+
+### ✅ Manejo seguro de sesiones
+
+* Uso de `Flask session` con `SECRET_KEY`
+* Acceso a rutas protegidas solo si el usuario inició sesión
+* Cierre de sesión correcto (`session.clear()`)
+
+### ✅ Validaciones de datos
+
+* Restricciones en la base de datos (PRIMARY KEY, UNIQUE, CHECK, FOREIGN KEY)
+* Validación de existencia de correo antes del registro
+* Manejo de errores y mensajes flash
+
+### ✅ Protección de credenciales
+
+* Uso de archivo `.env` (no versionado)
+* Variables sensibles fuera del código fuente
+
+### ✅ Separación de responsabilidades
+
+* ORM solo para datos críticos (clientes)
+* Supabase usado únicamente para datos públicos (menú)
+* Estructura modular (`models.py`, `database.py`, `main.py`)
+
+### 🔒 Resultado
+
+Este sistema cumple con principios básicos de **seguridad web**, evitando:
+
+* SQL Injection
+* Exposición de contraseñas
+* Acceso no autorizado
+* Manipulación directa de datos
+
+---
+
 # 🪪 **Licencia**
 
-Proyecto educativo. Libre para estudiar, modificar y mejorar.
-
-
+Proyecto educativo — libre para estudiar, modificar y mejorar.
