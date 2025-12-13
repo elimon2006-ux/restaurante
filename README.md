@@ -44,11 +44,11 @@ Está desarrollado con **Flask** en el backend, **HTML + CSS + Jinja2** en el fr
 
 <img width="1919" height="878" alt="image" src="https://github.com/user-attachments/assets/c72ed1d7-dedc-4be9-905b-57a0620cc50b" />
 
-***Se divide en 4 categorias
-*TACOS
-*COMIDA CASERA
-*BEBIDAS
-*POSTRES
+### ***Se divide en 4 categorias
+* **TACOS
+* **COMIDA CASERA
+* **BEBIDAS
+* **POSTRES
 
 ### 5. Carrito de Pedidos
 
