@@ -27,7 +27,7 @@ Está desarrollado con **Flask** en el backend, **HTML + CSS + Jinja2** en el fr
 
 ### 1. Página de Inicio
 
-<img width="1919" height="876" src="https://github.com/user-attachments/assets/2fa55aba-7fc4-460d-b199-9a4f230c11b5" />
+<img width="1919" height="878" alt="image" src="https://github.com/user-attachments/assets/acc0bc9e-596e-44e7-a424-a7ae6c686204" />
 
 ### 2. Login
 
