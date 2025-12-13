@@ -1,6 +1,7 @@
-#Dependencias de Python
-
-pycache/
+# =========================
+# Dependencias de Python
+# =========================
+__pycache__/
 *.pyc
 *.pyo
 *.pyd
@@ -18,13 +19,20 @@ pip-delete-this-directory.txt
 .hypothesis/
 .pytest_cache/
 
-#Archivos específicos de la aplicación web
-
+# =========================
+# Archivos específicos de la app web
+# =========================
 *.sqlite3
 instance/
 .webassets-cache
 
-#Archivos sensibles (¡CRUCIAL!)
-
+# =========================
+# Archivos sensibles (CRUCIAL)
+# =========================
 .env
 .flaskenv
+
+# =========================
+# Editor / IDE
+# =========================
+.vscode/
