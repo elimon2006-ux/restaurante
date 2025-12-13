@@ -31,24 +31,33 @@ Está desarrollado con **Flask** en el backend, **HTML + CSS + Jinja2** en el fr
 
 ### 2. Login
 
-<img width="1919" height="873" src="https://github.com/user-attachments/assets/e3c1d228-2f91-4c86-8c5f-c48ccda1678a" />
+<img width="1919" height="877" alt="image" src="https://github.com/user-attachments/assets/01f6ee20-fc81-4ac6-af35-09292140a7b9" />
+
 
 ### 3. Registro de Clientes
 
-<img width="1919" height="877" src="https://github.com/user-attachments/assets/7da68f99-cba9-4307-bc5c-50d492365f25" />
-<img width="1913" height="718" src="https://github.com/user-attachments/assets/942229d5-eff2-4df3-98b9-da1d363d75c1" />
+<img width="1919" height="875" alt="image" src="https://github.com/user-attachments/assets/ebf1e82c-39ab-40df-8832-1b7be2f68617" />
+<img width="1919" height="879" alt="image" src="https://github.com/user-attachments/assets/8f5d03da-f842-4860-bc2d-01dd898440ff" />
+
 
 ### 4. Menú de Platillos
 
-<img width="1914" height="882" src="https://github.com/user-attachments/assets/a12bddca-3eb0-4930-ab84-b1d0b53ade3c" />
+<img width="1919" height="878" alt="image" src="https://github.com/user-attachments/assets/c72ed1d7-dedc-4be9-905b-57a0620cc50b" />
+
+***Se divide en 4 categorias
+*TACOS
+*COMIDA CASERA
+*BEBIDAS
+*POSTRES
 
 ### 5. Carrito de Pedidos
 
-<img width="1919" height="877" src="https://github.com/user-attachments/assets/773f63ed-801c-4979-adbe-6b2a705a9b44" />
+<img width="1919" height="872" alt="image" src="https://github.com/user-attachments/assets/3370829c-275e-449a-b2fe-16e9c4d95735" />
 
 ### 6. Dashboard del Usuario
 
-<img width="1919" height="877" src="https://github.com/user-attachments/assets/ba077b20-949c-4c45-a521-46909d01f6ce" />
+<img width="1919" height="875" alt="image" src="https://github.com/user-attachments/assets/27f70cf3-a0bb-4638-a266-1a0652423700" />
+
 
 ---
 
