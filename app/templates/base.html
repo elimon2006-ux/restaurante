@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Mi Restaurante{% endblock %}</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+    <div class="nav-left">
+        <a class="nav-title" href="{{ url_for('index') }}">🍽️ Mi Restaurante</a>
+    </div>
+
+    <div class="nav-right">
+        <a href="{{ url_for('index') }}">Inicio</a>
+
+        {% if session.get("user") %}
+            <a href="{{ url_for('menu') }}">Menú</a>
+            <a href="{{ url_for('dashboard') }}">Mi cuenta</a>
+
+            <span class="nav-user">
+                 {{ session.user.nombre }}
+            </span>
+
+            <a href="{{ url_for('logout') }}" class="logout">Salir</a>
+        {% else %}
+            <a href="{{ url_for('login') }}">Iniciar sesión</a>
+            <a href="{{ url_for('register') }}">Registrarse</a>
+        {% endif %}
+    </div>
+</nav>
+
+<!-- ================= FLASH MESSAGES ================= -->
+<div class="flash-container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash flash-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+
+<!-- ================= CONTENIDO ================= -->
+<main class="content">
+    {% block content %}{% endblock %}
+</main>
+
+</body>
+</html>

@@ -1,13 +1,21 @@
+from dotenv import load_dotenv
+load_dotenv()   # ← PRIMERO
+
 from flask import Flask, render_template, request, redirect, session, url_for, flash
 from supabase import create_client, Client
 import os
-from dotenv import load_dotenv
 from datetime import datetime
+from zoneinfo import ZoneInfo
+from werkzeug.security import generate_password_hash, check_password_hash
 
-load_dotenv()
+from app.database import SessionLocal, engine
+from app.models import Cliente, Base
+
 
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")
+
+Base.metadata.create_all(bind=engine)
 
 # ---------------- SUPABASE ----------------
 SUPABASE_URL = os.getenv("SUPABASE_URL")
@@ -21,24 +29,36 @@ supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 def index():
     return render_template("index.html")
 
-
 # ---------------- REGISTRO ----------------
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
-        data = {
-            "nombre": request.form["nombre"],
-            "correo": request.form["correo"],
-            "telefono": request.form["telefono"],
-            "contrasena": request.form["contrasena"],
-            "calle": request.form["calle"],
-            "numero": request.form["numero"],
-            "colonia": request.form["colonia"],
-            "ciudad": request.form["ciudad"],
-        }
+        db = SessionLocal()
 
-        supabase.table("clientes").insert(data).execute()
+        correo = request.form["correo"]
+
+        # Verificar si existe
+        if db.query(Cliente).filter_by(correo=correo).first():
+            db.close()
+            flash("Este correo ya está registrado", "warning")
+            return redirect(url_for("register"))
+
+        nuevo_cliente = Cliente(
+            nombre=request.form["nombre"],
+            correo=correo,
+            telefono=request.form["telefono"],
+            contrasena=generate_password_hash(request.form["contrasena"]),
+            calle=request.form["calle"],
+            numero=request.form["numero"],
+            colonia=request.form["colonia"],
+            ciudad=request.form["ciudad"],
+        )
+
+        db.add(nuevo_cliente)
+        db.commit()
+        db.close()
+
         flash("Registro exitoso. Ahora inicia sesión.", "success")
         return redirect(url_for("login"))
 
@@ -53,19 +73,22 @@ def login():
         correo = request.form["correo"]
         contrasena = request.form["contrasena"]
 
-        user = (
-            supabase.table("clientes")
-            .select("*")
-            .eq("correo", correo)
-            .eq("contrasena", contrasena)
-            .execute()
-        )
+        db = SessionLocal()
 
-        if len(user.data) == 1:
-            session["user"] = user.data[0]
+        user = db.query(Cliente).filter_by(correo=correo).first()
+
+        db.close()
+
+        if user and check_password_hash(user.contrasena, contrasena):
+            session["user"] = {
+                "id_cliente": user.id_cliente,
+                "nombre": user.nombre,
+                "correo": user.correo
+            }
             return redirect(url_for("dashboard"))
-        else:
-            flash("Credenciales incorrectas", "danger")
+
+        flash("Credenciales incorrectas", "danger")
+        return redirect(url_for("login"))
 
     return render_template("login.html")
 
@@ -77,8 +100,13 @@ def dashboard():
     if "user" not in session:
         return redirect(url_for("login"))
 
-    return render_template("dashboard.html", user=session["user"])
+    db = SessionLocal()
+    cliente = db.query(Cliente).filter_by(
+        id_cliente=session["user"]["id_cliente"]
+    ).first()
+    db.close()
 
+    return render_template("dashboard.html", user=cliente)
 
 # ---------------- LOGOUT ----------------
 
@@ -87,14 +115,18 @@ def logout():
     session.clear()
     return redirect(url_for("index"))
 
-
 # ---------------- MENÚ DE PLATILLOS ----------------
 
 @app.route("/menu")
 def menu():
     platillos = supabase.table("platillo").select("*").execute().data
-    return render_template("menu.html", platillos=platillos)
 
+    categorias = {}
+    for p in platillos:
+        cat = p["categoria"]
+        categorias.setdefault(cat, []).append(p)
+
+    return render_template("menu.html", categorias=categorias)
 
 # ---------------- PEDIDO ----------------
 
@@ -103,22 +135,31 @@ def agregar_pedido():
     if "pedido" not in session:
         session["pedido"] = []
 
-    platillo_id = request.form.get("id")
-    nombre = request.form.get("nombre")
-    precio = float(request.form.get("precio"))
+    try:
+        platillo_id = int(request.form["id"])
+    except ValueError:
+        flash("ID inválido", "danger")
+        return redirect(url_for("menu"))
 
+    # Obtener el platillo real desde la base
+    platillo = supabase.table("platillo").select("*").eq("id_platillo", platillo_id).execute().data
+    if not platillo:
+        flash("Platillo no encontrado", "danger")
+        return redirect(url_for("menu"))
+
+    platillo = platillo[0]
     pedido = session["pedido"]
+
     for item in pedido:
         if item["id"] == platillo_id:
             item["cantidad"] += 1
             break
     else:
-        pedido.append({"id": platillo_id, "nombre": nombre, "precio": precio, "cantidad": 1})
+        pedido.append({"id": platillo_id, "nombre": platillo["nombre"], "precio": float(platillo["precio"]), "cantidad": 1})
 
     session["pedido"] = pedido
-    flash(f"{nombre} agregado al pedido", "success")
+    flash(f"{platillo['nombre']} agregado al pedido", "success")
     return redirect(url_for("menu"))
-
 
 # ---------------- MI PEDIDO ----------------
 
@@ -128,13 +169,17 @@ def mi_pedido():
     total = sum(item["precio"] * item["cantidad"] for item in pedido)
     return render_template("mi_pedido.html", pedido=pedido, total=total)
 
-
 # ---------------- MODIFICAR PEDIDO ----------------
 
 @app.route("/modificar_pedido", methods=["POST"])
 def modificar_pedido():
     accion = request.form.get("accion")
-    platillo_id = request.form.get("id")
+    try:
+        platillo_id = int(request.form.get("id"))
+    except ValueError:
+        flash("ID inválido", "danger")
+        return redirect(url_for("mi_pedido"))
+
     pedido = session.get("pedido", [])
 
     for item in pedido:
@@ -151,7 +196,6 @@ def modificar_pedido():
     session["pedido"] = pedido
     return redirect(url_for("mi_pedido"))
 
-
 # ---------------- CONFIRMAR PEDIDO ----------------
 
 @app.route("/confirmar_pedido", methods=["POST"])
@@ -161,34 +205,39 @@ def confirmar_pedido():
         flash("El carrito está vacío.", "danger")
         return redirect(url_for("menu"))
 
-    id_cliente = session.get("user", {}).get("id_cliente")  # Cliente logueado
-    total = sum(item["precio"] * item["cantidad"] for item in pedido)
+    user_session = session.get("user")
+    if not user_session:
+        flash("Debes iniciar sesión para confirmar el pedido.", "danger")
+        return redirect(url_for("login"))
 
-    # Insertar en tabla pedido con fecha actual en timestamptz
+    id_cliente = user_session["id_cliente"]
+    total = sum(item["precio"] * item["cantidad"] for item in pedido)
+    fecha_actual = datetime.now(ZoneInfo("America/Mexico_City")).isoformat()
+
     pedido_db = supabase.table("pedido").insert({
         "id_cliente": id_cliente,
         "total": total,
-        "tipo_pedido": "Mesa",   # o "Domicilio"
-        "estado": "PENDIENTE",
-        "fecha": datetime.utcnow().isoformat()  # Fecha y hora UTC compatible con timestamptz
+        "tipo_pedido": "Mesa",
+        "fecha": fecha_actual
     }).execute()
 
-    # Obtener id del pedido recién creado
+    if not pedido_db.data:
+        flash("Error al guardar el pedido.", "danger")
+        return redirect(url_for("mi_pedido"))
+
     id_pedido = pedido_db.data[0]["id_pedido"]
 
-    # Insertar detalles de pedido
     for item in pedido:
         supabase.table("detalle_pedido").insert({
             "id_pedido": id_pedido,
-            "id_platillo": int(item["id"]),
+            "id_platillo": item["id"],
             "cantidad": item["cantidad"],
             "precio_unitario": item["precio"]
         }).execute()
 
-    session.pop("pedido")  # Limpiar carrito
+    session.pop("pedido")
     flash("Pedido confirmado con éxito!", "success")
     return redirect(url_for("menu"))
-
 
 # ---------------- RUN SERVER ----------------
 

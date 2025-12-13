@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="titulo">Menú</h1>
+
+{% for categoria, platillos in categorias.items() %}
+    <h2 class="categoria-titulo">{{ categoria }}</h2>
+
+    <div class="menu-grid">
+        {% for p in platillos %}
+        <div class="menu-card">
+            <h2>{{ p.nombre }}</h2>
+            <p>{{ p.descripcion }}</p>
+            <p><strong>${{ p.precio }}</strong></p>
+
+            <form method="POST" action="{{ url_for('agregar_pedido') }}">
+                <input type="hidden" name="id" value="{{ p.id_platillo }}">
+                <button type="submit" class="btn btn-outline">
+                    Agregar al pedido
+                </button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+{% endfor %}
+
+{% if session.get('pedido') %}
+<div style="margin-top: 20px;">
+    <a href="{{ url_for('mi_pedido') }}" class="btn btn-outline">
+        Ver Mi Pedido ({{ session['pedido']|length }} items)
+    </a>
+</div>
+{% endif %}
+
+{% endblock %}

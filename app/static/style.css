@@ -1,7 +1,4 @@
-/* =============================
-   ESTILO VINTAGE ELEGANTE
-   Negro + Rojo oscuro
-   ============================= */
+
 
 body {
     background: #1b1b1b;                /* Negro suave */
@@ -58,8 +55,8 @@ body {
 
 /* ----------- EFECTO SCROLL ----------- */
 .navbar.scrolled {
-    background: #1a0000;             /* más oscuro al bajar */
-    padding: 10px 30px;              /* navbar más compacto */
+    background: #1a0000;             
+    padding: 10px 30px;              
     box-shadow: 0 6px 16px rgba(0,0,0,0.6);
 }
 
@@ -74,7 +71,7 @@ h1, h2, h3 {
 
 .titulo, .hero-title {
     font-size: 48px;
-    color: #e0d6c2;                     /* Beige vintage */
+    color: #e0d6c2;                     
     text-shadow: 0 0 10px rgba(255,255,255,0.1);
 }
 
@@ -114,7 +111,7 @@ h1, h2, h3 {
    ============================= */
 
 .btn {
-    background: #3b0000;            /* Rojo elegante */
+    background: #3b0000;            
     color: white;
     padding: 12px 28px;
     border-radius: 10px;
@@ -125,7 +122,7 @@ h1, h2, h3 {
 }
 
 .btn:hover {
-    background: #5a0000;            /* Rojo más claro */
+    background: #5a0000;            
 }
 
 .btn-outline {
@@ -253,3 +250,11 @@ input:focus {
 }
 .flash.success { background-color: #2a4a2a; color: #c8ffc8; }
 .flash.danger { background-color: #4a1a1a; color: #ffbaba; }
+
+.categoria-titulo {
+    margin-top: 40px;
+    margin-bottom: 15px;
+    font-size: 1.6rem;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 5px;
+}
