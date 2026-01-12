@@ -10,7 +10,11 @@ Este proyecto es una **aplicación web completa para la gestión de un restauran
 
 Está desarrollado con **Flask** en el backend, **HTML + CSS + Jinja2** en el frontend y **Supabase (PostgreSQL)** como base de datos. Para el acceso a datos se utiliza **SQLAlchemy (ORM)**, principalmente en el módulo de **login y registro de clientes**.
 
+
 ---
+#  **Diagrama ER**
+
+<img width="1192" height="628" alt="Untitled (9)" src="https://github.com/user-attachments/assets/1e9b4eb9-d8e6-49ee-8e48-6feb3e208ab0" />
 
 # 🎯 **Objetivos del Proyecto**
 
