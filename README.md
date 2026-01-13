@@ -18,7 +18,7 @@ Está desarrollado con **Flask** en el backend, **HTML + CSS + Jinja2** en el fr
 
 # **EER
 
-<img width="414" height="232" alt="image" src="https://github.com/user-attachments/assets/44739c71-e6a1-4b9e-bf27-09b46dcc652a" />
+<img width="1192" height="628" alt="image" src="https://github.com/user-attachments/assets/44739c71-e6a1-4b9e-bf27-09b46dcc652a" />
 
 # 🎯 **Objetivos del Proyecto**
 
