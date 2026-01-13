@@ -12,9 +12,13 @@ Está desarrollado con **Flask** en el backend, **HTML + CSS + Jinja2** en el fr
 
 
 ---
-#  **Diagrama ER**
+#  **Modelo ER**
 
 <img width="1192" height="628" alt="Untitled (9)" src="https://github.com/user-attachments/assets/1e9b4eb9-d8e6-49ee-8e48-6feb3e208ab0" />
+
+# **EER
+
+<img width="414" height="232" alt="image" src="https://github.com/user-attachments/assets/44739c71-e6a1-4b9e-bf27-09b46dcc652a" />
 
 # 🎯 **Objetivos del Proyecto**
 
