@@ -16,7 +16,7 @@ Está desarrollado con **Flask** en el backend, **HTML + CSS + Jinja2** en el fr
 
 <img width="1192" height="628" alt="Untitled (9)" src="https://github.com/user-attachments/assets/1e9b4eb9-d8e6-49ee-8e48-6feb3e208ab0" />
 
-# **EER
+# **EER**
 
 <img width="1192" height="628" alt="image" src="https://github.com/user-attachments/assets/44739c71-e6a1-4b9e-bf27-09b46dcc652a" />
 
