@@ -10,6 +10,13 @@ Este proyecto es una **aplicación web completa para la gestión de un restauran
 
 Está desarrollado con **Flask** en el backend, **HTML + CSS + Jinja2** en el frontend y **Supabase (PostgreSQL)** como base de datos. Para el acceso a datos se utiliza **SQLAlchemy (ORM)**, principalmente en el módulo de **login y registro de clientes**.
 
+---
+
+## 👥 Integrantes del Equipo
+ 
+- **Estrada Gónzalez Naomi Judith**
+- **Herrera Zaragoza Elizabeth**
+- **Romero Martinez Diego Enrique**
 
 ---
 #  **Modelo ER**
